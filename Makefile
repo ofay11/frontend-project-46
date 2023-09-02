@@ -5,13 +5,19 @@ gendiff:
 	node bin/gendiff.js
 
 test:
-	node bin/gendiff.js __fixtures__/file1.json __fixtures__/file2.json
+	NODE_OPTIONS=--experimental-vm-modules npx jest
 
-test2:
-	node bin/gendiff.js '/mnt/c/Users/itimu/file1.json' '/mnt/c/Users/itimu/file2.json'
+test-watch:
+	npm test -s -- --watch
 
-testg:
-	gendiff '/mnt/c/Users/itimu/file1.json' '/mnt/c/Users/itimu/file2.json'
+test-coverage:
+	npm test -- --coverage --coverageProvider=v8
+
+testm:
+	node bin/gendiff.js __fixtures__/before.json __fixtures__/after.json
+
+testm2:
+	node bin/gendiff.js '/mnt/c/Users/itimu/before.json' '/mnt/c/Users/itimu/after.json'
 
 publish:
 	npm publish --dry-run
