@@ -4,11 +4,17 @@ import _ from 'lodash';
 
 const readFile = (filepath) => {
   const normalizedPath = path.normalize(filepath);
-  console.log("🚀 ~ file: index.js:58 ~ readFile ~ normalizedPath:", normalizedPath)
+  // console.log(
+  //   '🚀 ~ file: index.js:58 ~ readFile ~ normalizedPath:',
+  //   normalizedPath
+  // );
   const absolutePath = path.isAbsolute(normalizedPath)
     ? normalizedPath
     : path.resolve(process.cwd(), normalizedPath);
-    console.log("🚀 ~ file: index.js:59 ~ readFile ~ absolutePath:", absolutePath)
+  // console.log(
+  //   '🚀 ~ file: index.js:59 ~ readFile ~ absolutePath:',
+  //   absolutePath
+  // );
 
   try {
     return fs.readFileSync(absolutePath, 'utf-8');
@@ -17,9 +23,11 @@ const readFile = (filepath) => {
   }
 };
 
+// const extName = path.extname(filepath);
+
 const parseJSON = (jsonString) => JSON.parse(jsonString);
 
-const buildDiff = (data1, data2, format = 'stylish') => {
+const buildDiff = (data1, data2) => {
   const fileData1 = parseJSON(readFile(data1));
   const fileData2 = parseJSON(readFile(data2));
 
