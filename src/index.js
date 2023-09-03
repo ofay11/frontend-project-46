@@ -28,7 +28,7 @@ const getFileData = (filePath) => {
   return parseDataByFormat(fileData, fileExtension);
 }
 
-const buildDiff = (data1, data2) => {
+const genDiff = (data1, data2) => {
   const fileData1 = getFileData(data1);
   const fileData2 = getFileData(data2);
 
@@ -50,4 +50,4 @@ const buildDiff = (data1, data2) => {
   return diffOutput;
 };
 
-export default buildDiff;
+export default genDiff;
