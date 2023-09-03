@@ -1,21 +1,18 @@
 import fs from 'fs';
 import path from 'path';
 import _ from 'lodash';
+import parseDataByFormat from './parsers.js';
 
-const readFile = (filepath) => {
+const getAbsolutePath = (filepath) => {
   const normalizedPath = path.normalize(filepath);
-  // console.log(
-  //   '🚀 ~ file: index.js:58 ~ readFile ~ normalizedPath:',
-  //   normalizedPath
-  // );
   const absolutePath = path.isAbsolute(normalizedPath)
     ? normalizedPath
     : path.resolve(process.cwd(), normalizedPath);
-  // console.log(
-  //   '🚀 ~ file: index.js:59 ~ readFile ~ absolutePath:',
-  //   absolutePath
-  // );
+  return absolutePath;
+};
 
+const readFile = (filepath) => {
+  const absolutePath = getAbsolutePath(filepath);
   try {
     return fs.readFileSync(absolutePath, 'utf-8');
   } catch (error) {
@@ -23,13 +20,17 @@ const readFile = (filepath) => {
   }
 };
 
-// const extName = path.extname(filepath);
+const getFileExtension = (filepath) => path.extname(filepath);
 
-const parseJSON = (jsonString) => JSON.parse(jsonString);
+const getFileData = (filePath) => {
+  const fileData = readFile(filePath);
+  const fileExtension = getFileExtension(filePath);
+  return parseDataByFormat(fileData, fileExtension);
+}
 
 const buildDiff = (data1, data2) => {
-  const fileData1 = parseJSON(readFile(data1));
-  const fileData2 = parseJSON(readFile(data2));
+  const fileData1 = getFileData(data1);
+  const fileData2 = getFileData(data2);
 
   const keys = _.union(Object.keys(fileData1), Object.keys(fileData2)).sort();
   const diff = keys.map((key) => {
