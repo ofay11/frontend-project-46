@@ -1,16 +1,16 @@
 import YAML from 'yaml';
 
-const parseDataByFormat = (data, format) => {
-  switch (format) {
-    case '.json':
+export default (data, extension) => {
+  switch (extension) {
+    case 'json':
       return JSON.parse(data);
-    case '.yaml':
+    case 'yaml':
       return YAML.parse(data);
-    case '.yml':
+    case 'yml':
       return YAML.parse(data);
     default:
-      throw new Error(`Unknown format ${format}`);
+      throw new Error(
+        `Invalid file extension: '${extension}'! Try supported formats: 'json', 'yml', 'yaml'.\n`
+      );
   }
 };
-
-export default parseDataByFormat;
