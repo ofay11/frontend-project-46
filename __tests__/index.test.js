@@ -1,27 +1,44 @@
 import fs from 'fs';
+import path from 'path';
 import { fileURLToPath } from 'url';
-import path, { dirname } from 'path';
-import genDiff from '../src/index.js';
+import gendiff from '../src/index.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const getFixturePath = (filename) =>
   path.join(__dirname, '..', '__fixtures__', filename);
 
-describe.each([['stylish']])(
-  '%s formatter',
-  (formatter) => {
-    const filepathOfExpected = getFixturePath(`result-${formatter}.txt`);
-    const expected = fs.readFileSync(filepathOfExpected, 'utf-8');
+const readFile = (filename) =>
+  fs.readFileSync(getFixturePath(filename), 'utf8');
 
-    test.each([['json'], ['yml']])('%s files', (extension) => {
-      const filepath1 = getFixturePath(`before.${extension}`);
-      const filepath2 = getFixturePath(`after.${extension}`);
+const expectedStylish = readFile('result_stylish.txt');
+const expectedPlain = readFile('result_plain.txt');
+const expectedJson = readFile('result_json.txt');
 
-      const result = genDiff(filepath1, filepath2, formatter);
+const extensions = ['json', 'yml', 'yaml'];
 
-      expect(result).toBe(expected);
-    });
-  }
-);
+describe('Positives cases', () => {
+  test.each(extensions)('Format %s', (extension) => {
+    const file1 = `${process.cwd()}/__fixtures__/file1.${extension}`;
+    const file2 = `${process.cwd()}/__fixtures__/file2.${extension}`;
+
+    expect(gendiff(file1, file2, 'stylish')).toEqual(expectedStylish);
+    expect(gendiff(file1, file2, 'plain')).toEqual(expectedPlain);
+    expect(gendiff(file1, file2, 'json')).toEqual(expectedJson);
+  });
+});
+
+describe('Negative cases', () => {
+  test('Check wrong file extension', () => {
+    const error = new Error(
+      `Invalid file extension: 'txt'! Try supported formats: 'json', 'yml', 'yaml'.\n`
+    );
+
+    expect(() => {
+      gendiff(
+        getFixturePath('file1_wrong.txt'),
+        getFixturePath('file2_wrong.txt')
+      );
+    }).toThrow(error);
+  });
+});
