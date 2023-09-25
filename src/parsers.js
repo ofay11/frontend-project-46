@@ -10,7 +10,7 @@ export default (data, extension) => {
       return YAML.parse(data);
     default:
       throw new Error(
-        `Invalid file extension: '${extension}'! Try supported formats: 'json', 'yml', 'yaml'.\n`
+        `Invalid file extension: '${extension}'! Try supported formats: 'json', 'yml', 'yaml'.\n`,
       );
   }
 };
