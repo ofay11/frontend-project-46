@@ -12,7 +12,7 @@ export default (data, format, replacer) => {
       return makeJson(data, null, replacer);
     default:
       throw new Error(
-        `Invalid file format type: '.${format}'! Try supported file formats: 'stylish', 'plain', 'json'.\n`
+        `Invalid file format type: '.${format}'! Try supported file formats: 'stylish', 'plain', 'json'.\n`,
       );
   }
 };
