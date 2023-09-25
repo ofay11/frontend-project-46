@@ -5,11 +5,9 @@ import gendiff from '../src/index.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const getFixturePath = (filename) =>
-  path.join(__dirname, '..', '__fixtures__', filename);
+const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 
-const readFile = (filename) =>
-  fs.readFileSync(getFixturePath(filename), 'utf8');
+const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf8');
 
 const expectedStylish = readFile('result_stylish.txt');
 const expectedPlain = readFile('result_plain.txt');
@@ -31,13 +29,12 @@ describe('Positives cases', () => {
 describe('Negative cases', () => {
   test('Check wrong file extension', () => {
     const error = new Error(
-      `Invalid file extension: 'txt'! Try supported formats: 'json', 'yml', 'yaml'.\n`
+      "Invalid file extension: 'txt'! Try supported formats: 'json', 'yml', 'yaml'.\n",
     );
-
     expect(() => {
       gendiff(
         getFixturePath('file1_wrong.txt'),
-        getFixturePath('file2_wrong.txt')
+        getFixturePath('file2_wrong.txt'),
       );
     }).toThrow(error);
   });
