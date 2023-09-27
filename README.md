@@ -6,16 +6,21 @@
 
 ## About
 This CLI application can compare two files (.json, or .yaml) and show the difference using three formatter for your taste.
+```
+Usage: gendiff [options] <filepath1> <filepath2>
+
+Compares two configuration files and shows a difference.
+
+Options:
+  -V, --version        output the version number
+  -f, --format <type>  output format (default: "stylish")
+  -h, --help           display help for command
+```
 
 ## Install
 Clone this repository and run commands from the cloned directory to install packages.
 ```bash
 make install && make publish && npm link
-```
-
-## Usage
-```bash
-gendiff [options] <filepath1> <filepath2>
 ```
 
 ## Examples
